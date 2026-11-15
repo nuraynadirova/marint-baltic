@@ -254,6 +254,19 @@ ul.c{margin:4px 0 0 18px;padding:0}
 .maplibregl-ctrl-attrib a{color:var(--ink45)}
 @media(max-width:1023px){#app.inv .body{flex-direction:column}#invcol{width:auto;border-left:0;border-top:1px solid var(--hair);height:55%}main.co .tr,main.co .time{right:12px}header{height:56px;gap:12px;padding:0 12px}.tag,.search,nav .np{display:none}.body{flex-direction:column}aside{width:auto;order:2;height:42%;border-right:0;border-top:1px solid var(--hair)}
  .tr{display:grid;grid-template-columns:1fr 1fr;gap:6px}.chip{min-width:0;padding:6px 8px}.chip .l{display:none}.chip .ci{height:24px;width:24px}.lay{display:none}#card{top:8px;bottom:8px}.time .sp{display:none}}
+@media(max-width:700px){
+ header{overflow:hidden;gap:8px}nav{min-width:0;flex:1;display:flex}.nd{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}#theme{flex-shrink:0}
+ main{flex:none;height:46dvh}aside{height:auto;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+ #list{flex:none;overflow:visible}.srcs{flex:none}.seg{position:sticky;top:0;z-index:3}
+ .time{left:8px;right:8px;bottom:8px;padding:6px 8px;gap:6px;flex-wrap:nowrap}.time .pb.g:not(#casesb),#clock{display:none}#scrub{flex:1;min-width:0}
+ .legb,.leg{bottom:62px;left:8px}.tl{top:8px;left:8px}.tr{top:8px;right:8px}
+ #card{position:fixed;top:0;bottom:0;left:0;right:0;width:auto;z-index:150;border-left:0}
+ #satcard{position:fixed;top:8px;left:8px;right:8px;width:auto;max-width:none;z-index:160;max-height:calc(100dvh - 16px);overflow-y:auto}
+ #app.inv main{height:36dvh}#app.inv #invcol{height:auto;flex:1;min-height:0;padding:16px 14px}
+ #invbar{height:56px;padding:0 10px;gap:8px}#invbar>svg,#invrk,#theme2{display:none}#invrep{padding:8px 12px!important;font-size:13px!important;white-space:nowrap;flex-shrink:0}#invback{flex-shrink:0;white-space:nowrap}
+ #app.inv .leg{display:none}
+ button,.row,[data-tab]{touch-action:manipulation}
+}
 </style>
 </head>
 <body>
@@ -965,7 +978,7 @@ async function loadSat(v){
     for(let k=4;k<26&&!o.opt;k++){const d=ymd(Date.now()-k*864e5);for(const [L,name] of HLS){const c=await chipAt(L,d,v.lat,v.lon,z,192);if(!c)continue;const st=chipStats(c);if(st.valid<.3)continue;
       o.opt={date:d,sensor:name,age:k,cloud:st.mean>165,img:chipPng(c,null,2)};break}}
   }catch(e){o.err=String(e.message||e)}
-  o.state="done";if(INV===v.mmsi){renderInvestigation();if(o.sar)showSatCard(v.mmsi)}
+  o.state="done";if(INV===v.mmsi){renderInvestigation();if(o.sar&&WIDE())showSatCard(v.mmsi)}
 }
 const sarWhen=s=>s.tUsed?new Date(s.tUsed).toISOString().slice(0,16).replace("T"," ")+"Z":s.times.length?s.date+" "+s.times.map(t=>utc(t).replace(" UTC","Z")).join(" or "):s.date;
 function satHTML(v){
@@ -979,6 +992,7 @@ function satHTML(v){
   else h+=`<div class="soc"><div class="im"><span class="stag" style="color:#8fe3c3">OPTICAL</span></div><div class="cap"><b style="color:var(--ink60)">No optical image</b><p>No usable Sentinel-2 or Landsat image of this position in NASA’s archive for the last 25 days.</p></div></div>`;
   return `<div class="so">${h}</div>`;
 }
+const WIDE=()=>matchMedia("(min-width:701px)").matches;
 function showSatCard(mmsi){
   const v=S.v.get(mmsi),o=SAT.get(mmsi),s=o&&o.sar;if(!v||!s)return;const row=(l,x)=>`<div class="sr"><small>${l}</small><span>${x}</span></div>`;
   $("#satcard").innerHTML=`<div class="sh"><span>${s.target?"SAR Detection":"SAR Image"}</span><button id="satx" aria-label="Close">×</button></div><div class="si"><img src="${s.img}" alt="Radar image"><span class="stag" style="color:#d9a6f5">SAR</span></div>
@@ -994,7 +1008,7 @@ let INV=null;
 function invId(v){return "MARINT-INV-"+ymd(Date.now()).replace(/-/g,"")+"-"+String(v.mmsi).slice(-4)}
 function openInvestigation(mmsi){
   const v=S.v.get(+mmsi);if(!v)return;INV=v.mmsi;closeCard();$("#satcard").classList.remove("open");$("#app").classList.add("inv");renderInvestigation();
-  if(SAT.has(v.mmsi)&&SAT.get(v.mmsi).sar)showSatCard(v.mmsi);else loadSat(v);
+  if(SAT.has(v.mmsi)&&SAT.get(v.mmsi).sar){if(WIDE())showSatCard(v.mmsi)}else loadSat(v);
   setTimeout(()=>{map.resize();const pts=v.track.map(p=>[p.lon,p.lat]);pts.push([v.lon,v.lat]);const b=pts.reduce((a,p)=>a.extend(p),new maplibregl.LngLatBounds(pts[0],pts[0]));
     map.getSource("track").setData(v.track.length>1?{type:"Feature",geometry:{type:"LineString",coordinates:v.track.map(p=>[p.lon,p.lat])}}:empty);
     map.fitBounds(b,{padding:120,maxZoom:10.5,duration:600})},60);
