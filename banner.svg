@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-label="MARINT — Maritime Intelligence for the Baltic Sea">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#081d33"/>
+      <stop offset="1" stop-color="#0d3352"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2fa7d6" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2fa7d6" stop-opacity=".55"/>
+    </linearGradient>
+    <clipPath id="clip"><rect width="1200" height="380" rx="18"/></clipPath>
+    <style>
+      .w{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+      .in{opacity:0;animation:in 1s ease-out forwards}
+      .d1{animation-delay:.3s}.d2{animation-delay:.9s}.d3{animation-delay:1.5s}.d4{animation-delay:2.1s}
+      @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+      .blip{animation:blip 3s ease-in-out infinite}
+      .b2{animation-delay:.8s}.b3{animation-delay:1.6s}.b4{animation-delay:2.2s}
+      @keyframes blip{0%,100%{opacity:.25}50%{opacity:1}}
+      .ring{animation:ring 2.4s ease-out infinite;transform-origin:1010px 232px}
+      @keyframes ring{from{transform:scale(.4);opacity:.9}to{transform:scale(1.6);opacity:0}}
+    </style>
+  </defs>
+
+  <g clip-path="url(#clip)">
+    <rect width="1200" height="380" fill="url(#bg)"/>
+
+    <!-- radar -->
+    <g fill="none" stroke="#2fa7d6" stroke-opacity=".28">
+      <circle cx="960" cy="180" r="50"/>
+      <circle cx="960" cy="180" r="100"/>
+      <circle cx="960" cy="180" r="150"/>
+      <path d="M810 180H1110M960 30V330"/>
+    </g>
+    <g>
+      <path d="M960 180 L1110 180 A150 150 0 0 0 1066 74 Z" fill="url(#sweep)"/>
+      <path d="M960 180 L1110 180" stroke="#67bdf2" stroke-width="2"/>
+      <animateTransform attributeName="transform" type="rotate" from="0 960 180" to="360 960 180" dur="6s" repeatCount="indefinite"/>
+    </g>
+    <circle class="blip" cx="900" cy="120" r="5" fill="#2fbf8e"/>
+    <circle class="blip b2" cx="1040" cy="140" r="5" fill="#2fbf8e"/>
+    <circle class="blip b3" cx="880" cy="235" r="5" fill="#e0a530"/>
+    <circle class="blip b4" cx="1000" cy="80" r="5" fill="#d4146e"/>
+    <circle class="ring" cx="1010" cy="232" r="14" fill="none" stroke="#b754e0" stroke-width="2"/>
+    <circle cx="1010" cy="232" r="6" fill="#b754e0"/>
+
+    <!-- waves -->
+    <g fill="#2fa7d6" fill-opacity=".16">
+      <path d="M0 330 q75 -22 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V380 H0Z">
+        <animateTransform attributeName="transform" type="translate" from="0 0" to="-300 0" dur="7s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <g fill="#67bdf2" fill-opacity=".14">
+      <path d="M0 348 q75 -16 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V380 H0Z">
+        <animateTransform attributeName="transform" type="translate" from="-300 0" to="0 0" dur="10s" repeatCount="indefinite"/>
+      </path>
+    </g>
+
+    <!-- logo -->
+    <g class="in"><g transform="translate(60 78) scale(.36) translate(-40 -40)">
+      <path d="M136 70 151 92 159 109 165 126 171 156 172 192 167 226 156 264 145 291 133 315 115 345 149 326 178 314 204 307 216 305 231 305 236 275 247 243 259 218 279 187 271 172 259 155 247 141 225 120 205 105 181 90 148 74Z" fill="#2FA7D6"/>
+      <path d="M430 69 428 69 394 87 352 116 329 135 306 158 297 170 290 182 285 196 280 205 266 242 258 277 256 307 267 309 287 317 303 328 314 340 337 334 355 332 381 334 414 343 441 355 451 361 437 337 424 311 414 286 402 245 396 206 396 167 401 136 413 100 424 78Z" fill="#67BDF2"/>
+      <path d="M89 383 120 369 149 361 172 358 201 359 231 365 251 372 265 378 318 405 339 413 366 419 397 420 425 415 450 406 471 394 479 388 490 377 470 385 442 391 431 392 396 391 372 386 348 378 291 351 263 341 241 336 221 334 207 334 178 338 166 341 141 350 118 362 100 374Z" fill="#1F9BE0"/>
+      <path d="M68 411 90 405 111 402 134 401 157 403 175 407 193 413 211 421 250 442 262 447 285 454 304 457 327 457 341 455 362 449 376 442 352 442 324 436 291 423 232 392 212 385 186 380 156 380 127 385 98 395Z" fill="#1F9BE0"/>
+    </g></g>
+
+    <!-- text -->
+    <text class="w in d1" x="262" y="150" font-size="84" font-weight="800" letter-spacing="6" fill="#ffffff">MARINT</text>
+    <text class="w in d2" x="266" y="196" font-size="26" font-weight="500" fill="#9fd4ee">Maritime Intelligence · Baltic Sea</text>
+    <text class="w in d3" x="64" y="268" font-size="20" fill="#cfe3ef">Live AIS + NASA satellite radar watching the cables and pipelines of the Gulf of Finland</text>
+    <g class="in d4">
+      <rect x="64" y="290" width="520" height="34" rx="17" fill="#2fa7d6" fill-opacity=".18" stroke="#2fa7d6" stroke-opacity=".6"/>
+      <text class="w" x="324" y="313" font-size="16" font-weight="600" text-anchor="middle" fill="#ffffff">NASA Space Apps Challenge 2026 · Dancing with the SARs</text>
+    </g>
+  </g>
+</svg>
